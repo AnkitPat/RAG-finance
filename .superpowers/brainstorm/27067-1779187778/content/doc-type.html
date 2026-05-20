@@ -1,0 +1,26 @@
+<h2>What kind of documents are we processing?</h2>
+<p class="subtitle">Different document types require different extraction and chunking strategies.</p>
+
+<div class="options">
+  <div class="option" data-choice="structured" onclick="toggleSelect(this)">
+    <div class="letter">1</div>
+    <div class="content">
+      <h3>Structured Documents</h3>
+      <p>Invoices, bank statements, or tax forms. Fixed layouts, heavy on tables and key-value pairs.</p>
+    </div>
+  </div>
+  <div class="option" data-choice="unstructured" onclick="toggleSelect(this)">
+    <div class="letter">2</div>
+    <div class="content">
+      <h3>Unstructured Documents</h3>
+      <p>Annual reports (10-Ks), research papers, or earnings call transcripts. Mostly text with some embedded tables.</p>
+    </div>
+  </div>
+  <div class="option" data-choice="mixed" onclick="toggleSelect(this)">
+    <div class="letter">3</div>
+    <div class="content">
+      <h3>A Mix of Both</h3>
+      <p>A variety of financial documents with different formats and structures.</p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,36 @@
+<h2>Design: Agentic Auditor Financial RAG</h2>
+<p class="subtitle">A high-fidelity system designed for numeric accuracy and narrative correctness.</p>
+
+<div class="section">
+  <h3>1. Data Ingestion & Extraction</h3>
+  <p>To ensure "perfect" extraction from unstructured PDFs:</p>
+  <ul>
+    <li><strong>Parser:</strong> Use <code>Marker</code> or <code>LlamaParse</code> to convert PDFs into high-quality Markdown. Markdown preserves structural cues (bolding, headers) that are vital for financial context.</li>
+    <li><strong>Chunking:</strong> <code>RecursiveCharacterTextSplitter</code> with Markdown headers as delimiters.</li>
+    <li><strong>Metadata:</strong> Each chunk tagged with <code>source_file</code>, <code>page_number</code>, and <code>document_type</code>.</li>
+  </ul>
+</div>
+
+<div class="section">
+  <h3>2. Vector Storage & Retrieval</h3>
+  <ul>
+    <li><strong>Embedding:</strong> <code>text-embedding-3-small</code> (OpenAI) or <code>bge-large-en-v1.5</code> for high semantic density.</li>
+    <li><strong>Vector DB:</strong> <code>ChromaDB</code> or <code>Qdrant</code> (local-first, scalable to API).</li>
+    <li><strong>Hybrid Search:</strong> Combine semantic search with <code>BM25</code> keyword matching. This ensures that specific financial terms or unique IDs are found even if semantic similarity is low.</li>
+  </ul>
+</div>
+
+<div class="section">
+  <h3>3. Generation & Verification (The "Perfect Answer" Loop)</h3>
+  <div class="mockup">
+    <div class="mockup-header">Agentic Workflow</div>
+    <div class="mockup-body" style="padding: 20px;">
+      <div style="display: flex; gap: 15px; align-items: center;">
+        <div class="placeholder" style="flex: 1; background: #eef;"><strong>Agent A: Extractor</strong><br>Synthesizes answer from chunks.</div>
+        <div style="font-size: 20px;">&rarr;</div>
+        <div class="placeholder" style="flex: 1; background: #efe;"><strong>Agent B: Auditor</strong><br>Verifies every amount against raw chunks.</div>
+      </div>
+      <p style="margin-top: 15px; font-size: 0.9em; color: #666;">If Agent B finds a discrepancy (e.g., "$1.2M" in answer vs "$1.2B" in source), it triggers a regeneration with a corrective prompt.</p>
+    </div>
+  </div>
+</div>

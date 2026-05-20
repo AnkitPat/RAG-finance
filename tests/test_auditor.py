@@ -2,8 +2,7 @@ from unittest.mock import MagicMock
 from src.agents.auditor import AuditorAgent
 
 def test_auditor_success():
-    # Pass a dummy llm to avoid real network calls during init
-    agent = AuditorAgent(llm=MagicMock())
+    agent = AuditorAgent()
     # Mocking verify logic to avoid quota/model issues
     agent.verify = MagicMock(return_value=(True, ""))
     
@@ -13,8 +12,7 @@ def test_auditor_success():
     assert is_valid is True
 
 def test_auditor_failure():
-    # Pass a dummy llm to avoid real network calls during init
-    agent = AuditorAgent(llm=MagicMock())
+    agent = AuditorAgent()
     # Mocking verify logic
     agent.verify = MagicMock(return_value=(False, "500B does not match 500M"))
     

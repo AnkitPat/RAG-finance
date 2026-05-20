@@ -1,0 +1,7 @@
+langchain
+langchain-openai
+langgraph
+chromadb
+marker-pdf
+python-dotenv
+pytest

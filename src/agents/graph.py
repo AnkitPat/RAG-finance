@@ -1,7 +1,5 @@
 from typing import TypedDict, List
 from langgraph.graph import StateGraph, END
-# Note: These imports might need adjustment based on final project structure
-# Currently using assumed locations for ExtractorAgent and AuditorAgent
 from src.agents.extractor import ExtractorAgent
 from src.agents.auditor import AuditorAgent
 
@@ -29,7 +27,7 @@ def auditor_node(state: GraphState):
     return {"is_valid": is_valid, "feedback": feedback, "final_answer": state['draft'] if is_valid else ""}
 
 def should_continue(state: GraphState):
-    if state['is_valid'] or state.get('attempts', 0) >= 2:
+    if state.get('is_valid', False) or state.get('attempts', 0) >= 2:
         return "end"
     return "extractor"
 

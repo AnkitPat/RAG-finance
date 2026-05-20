@@ -1,6 +1,5 @@
 import os
 import json
-from langchain_openai import ChatOpenAI
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.prompts import ChatPromptTemplate
 from dotenv import load_dotenv
@@ -8,9 +7,9 @@ from dotenv import load_dotenv
 load_dotenv()
 
 class AuditorAgent:
-    def __init__(self, llm=None):
+    def __init__(self):
         # Use Gemini
-        self.llm = llm or ChatGoogleGenerativeAI(
+        self.llm = ChatGoogleGenerativeAI(
             model="gemini-2.0-flash", 
             temperature=0,
             google_api_key=os.getenv("GOOGLE_API_KEY")

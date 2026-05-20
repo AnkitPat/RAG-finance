@@ -1,0 +1,60 @@
+<h2>Proposed Approaches</h2>
+<p class="subtitle">Based on your focus on text-heavy documents and the need for "perfect" numeric verification.</p>
+
+<div class="split">
+  <div class="card" data-choice="approach1" onclick="toggleSelect(this)">
+    <div class="card-body">
+      <h3>Approach 1: The "Agentic Auditor"</h3>
+      <p>Uses a two-step verification chain to ensure amounts are correct.</p>
+      <ul>
+        <li><strong>Ingestion:</strong> PDF &rarr; Markdown (via LlamaParse/Marker) &rarr; Vector DB.</li>
+        <li><strong>Retrieval:</strong> Hybrid search (BM25 + Vector).</li>
+        <li><strong>Generation:</strong> Agent A extracts the answer; Agent B "audits" the answer by looking at the raw source chunks again.</li>
+      </ul>
+      <div class="pros-cons">
+        <div class="pros">
+          <h4>Pros</h4>
+          <ul>
+            <li>Highest accuracy for amounts</li>
+            <li>Self-correcting</li>
+          </ul>
+        </div>
+        <div class="cons">
+          <h4>Cons</h4>
+          <ul>
+            <li>Higher latency</li>
+            <li>Higher token cost</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" data-choice="approach2" onclick="toggleSelect(this)">
+    <div class="card-body">
+      <h3>Approach 2: "Citation-First RAG"</h3>
+      <p>Forces the system to prove every amount with a direct quote.</p>
+      <ul>
+        <li><strong>Ingestion:</strong> PDF &rarr; Structured Chunks (preserving page numbers/headers).</li>
+        <li><strong>Retrieval:</strong> Context-aware retrieval (parent/child chunks).</li>
+        <li><strong>Generation:</strong> LLM must provide <code>[Quote]</code> and <code>[Page Number]</code> for every amount.</li>
+        <li><strong>Validation:</strong> Programmatic check to ensure the quote exists in the source.</li>
+      </ul>
+      <div class="pros-cons">
+        <div class="pros">
+          <h4>Pros</h4>
+          <ul>
+            <li>Faster than Agentic</li>
+            <li>Easy for humans to verify</li>
+          </ul>
+        </div>
+        <div class="cons">
+          <h4>Cons</h4>
+          <ul>
+            <li>Relies on LLM following strict citation rules</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
