@@ -5,4 +5,4 @@
 - [x] Task 3: Ingestion and Vector Storage
 - [x] Task 4: The Extractor Agent
 - [x] Task 5: The Auditor Agent (Verification Loop)
-- [ ] Task 6: Orchestrating the Workflow with LangGraph
+- [x] Task 6: Orchestrating the Workflow with LangGraph
