@@ -30,7 +30,18 @@ curl -X POST http://localhost:8000/query \
 
 ## Running Tests
 
-To run the full test suite:
+
+## Document Ingestion
+
+The system automatically scans the `documents/` folder on startup and ingests any new PDFs.
+
+To manually trigger a scan:
 ```bash
-PYTHONPATH=. pytest
+curl -X POST http://localhost:8000/ingest
 ```
+
+To check ingestion status:
+```bash
+curl http://localhost:8000/ingest/status
+```
+
