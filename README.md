@@ -13,3 +13,24 @@ A Financial RAG service using LangGraph, OpenAI, and ChromaDB.
    cp .env.example .env
    # Add your API keys to .env
    ```
+
+## API Usage
+
+Start the server:
+```bash
+PYTHONPATH=. uvicorn src.api:app --reload
+```
+
+Query the API:
+```bash
+curl -X POST http://localhost:8000/query \
+     -H "Content-Type: application/json" \
+     -d '{"query": "What is the revenue?"}'
+```
+
+## Running Tests
+
+To run the full test suite:
+```bash
+PYTHONPATH=. pytest
+```
