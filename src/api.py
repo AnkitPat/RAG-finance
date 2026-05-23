@@ -1,3 +1,4 @@
+from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from pydantic import BaseModel
 from typing import List, Dict
@@ -6,10 +7,24 @@ import os
 
 from src.utils.vector_store import Ingestor
 from src.agents.graph import run_financial_rag
+from src.utils.ingestion_manager import IngestionManager
 
 load_dotenv()
 
-app = FastAPI(title="Financial RAG API")
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Run ingestion on startup
+    print("Starting automated ingestion...")
+    try:
+        manager = IngestionManager()
+        newly_ingested = manager.scan_and_ingest()
+        print(f"Ingested {len(newly_ingested)} new files: {newly_ingested}")
+    except Exception as e:
+        print(f"Ingestion failed: {e}")
+    yield
+
+# Update app initialization
+app = FastAPI(title="Financial RAG API", lifespan=lifespan)
 
 # Initialize dependencies
 ingestor = Ingestor()
