@@ -5,3 +5,6 @@ chromadb
 marker-pdf
 python-dotenv
 pytest
+fastapi
+uvicorn
+httpx
