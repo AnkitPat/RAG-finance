@@ -1,8 +1,13 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 from typing import List, Dict
+from dotenv import load_dotenv
+import os
+
 from src.utils.vector_store import Ingestor
 from src.agents.graph import run_financial_rag
+
+load_dotenv()
 
 app = FastAPI(title="Financial RAG API")
 
@@ -28,7 +33,7 @@ async def query_rag(request: QueryRequest):
     
     # 2. Extract page content for context
     context = "\n\n".join([doc.page_content for doc in docs])
-    
+    print(docs)
     # 3. Run Agent Workflow
     answer = run_financial_rag(request.query, context)
     
