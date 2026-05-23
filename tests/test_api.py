@@ -25,3 +25,21 @@ def test_query_endpoint():
             assert data["answer"] == "The revenue was $100."
             assert len(data["sources"]) == 1
             assert data["sources"][0]["content"] == "Revenue was $100"
+
+def test_ingestion_endpoints():
+    with patch("src.api.IngestionManager.scan_and_ingest") as mock_scan:
+        with patch("src.api.IngestionManager.get_ingested_files") as mock_get:
+            mock_scan.return_value = ["doc1.pdf"]
+            mock_get.return_value = ["doc1.pdf", "doc2.pdf"]
+            
+            # Test trigger ingestion
+            response_ingest = client.post("/ingest")
+            assert response_ingest.status_code == 200
+            assert response_ingest.json()["count"] == 1
+            
+            # Test status
+            response_status = client.get("/ingest/status")
+            assert response_status.status_code == 200
+            assert response_status.json()["count"] == 2
+            assert "doc1.pdf" in response_status.json()["ingested_files"]
+

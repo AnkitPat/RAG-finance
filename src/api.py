@@ -41,6 +41,25 @@ class QueryResponse(BaseModel):
 async def health_check():
     return {"status": "ok"}
 
+@app.post("/ingest")
+async def trigger_ingestion():
+    manager = IngestionManager()
+    newly_ingested = manager.scan_and_ingest()
+    return {
+        "status": "success",
+        "newly_ingested": newly_ingested,
+        "count": len(newly_ingested)
+    }
+
+@app.get("/ingest/status")
+async def get_ingestion_status():
+    manager = IngestionManager()
+    ingested = list(manager.get_ingested_files())
+    return {
+        "ingested_files": ingested,
+        "count": len(ingested)
+    }
+
 @app.post("/query", response_model=QueryResponse)
 async def query_rag(request: QueryRequest):
     # 1. Search for context
