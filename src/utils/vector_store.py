@@ -1,12 +1,17 @@
 import chromadb
-from langchain_community.embeddings import FakeEmbeddings
+from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from langchain_chroma import Chroma
 from langchain_text_splitters import RecursiveCharacterTextSplitter
+from src.config import settings
 
 class Ingestor:
     def __init__(self, collection_name="financial_docs"):
-        # Using FakeEmbeddings to bypass OpenAI rate limits for testing
-        self.embeddings = FakeEmbeddings(size=768)
+        # Using real embeddings
+        self.embeddings = GoogleGenerativeAIEmbeddings(
+            model="models/embedding-001",
+            google_api_key=settings.GOOGLE_API_KEY.get_secret_value()
+        )
+        
         self.vectorstore = Chroma(
             collection_name=collection_name,
             embedding_function=self.embeddings,
