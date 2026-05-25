@@ -23,7 +23,9 @@ def extractor_node(state: GraphState):
 
 def auditor_node(state: GraphState):
     agent = AuditorAgent()
+    print(f"Auditor: Verifying draft...")
     is_valid, feedback = agent.verify(state['draft'], state['context'])
+    print(f"Auditor Result: Valid={is_valid}, Feedback={feedback}")
     return {"is_valid": is_valid, "feedback": feedback, "final_answer": state['draft'] if is_valid else ""}
 
 def should_continue(state: GraphState):

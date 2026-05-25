@@ -66,23 +66,20 @@ async def get_ingestion_status():
 
 @app.post("/query", response_model=QueryResponse)
 async def query_rag(request: QueryRequest):
-    try:
-        # 1. Search for context
-        docs = ingestor.search(request.query, k=3)
-        
-        # 2. Extract page content for context
-        context = "\n\n".join([doc.page_content for doc in docs])
-        
-        # 3. Run Agent Workflow
-        answer = run_financial_rag(request.query, context)
-        
-        # 4. Format sources
-        sources = [{"content": doc.page_content, "metadata": doc.metadata} for doc in docs]
-        
-        return {
-            "query": request.query,
-            "answer": answer,
-            "sources": sources
-        }
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Query failed: {str(e)}")
+    # 1. Search for context (increased k to 10)
+    docs = ingestor.search(request.query, k=10)
+
+    # 2. Extract page content for context
+    context = "\n\n".join([doc.page_content for doc in docs])
+
+    # 3. Run Agent Workflow
+    answer = run_financial_rag(request.query, context)
+
+    # 4. Format sources
+    sources = [{"content": doc.page_content, "metadata": doc.metadata} for doc in docs]
+
+    return {
+        "query": request.query,
+        "answer": answer,
+        "sources": sources
+    }
